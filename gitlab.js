@@ -17,6 +17,7 @@
   console.log(target);
   if (target) {
     target.click();
+    console.log('点击了')
   }
 
   // Your code here...
