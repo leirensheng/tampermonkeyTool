@@ -2,12 +2,13 @@
 // @name         autoLogin
 // @namespace    http://tampermonkey.net/
 // @version      0.1
-// @description  try to take over the world!
+// @description  自动登录页面
 // @author       You
 // @match        http://leirensheng.dynv6.net:9999/*
 // @match     http://*/dc-admin/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=dynv6.net
 // @grant        none
+// @license MIT
 // ==/UserScript==
 
 (() => {
