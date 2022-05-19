@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         jdShell
 // @namespace    http://tampermonkey.net/
-// @version      0.1.0
+// @version      0.1.1
 // @description  shell 自动登录
 // @author       leirensheng
-// @include      http://leirensheng.dynv6.net:5678/*
+// @include      http://leirensheng.dynv6.net:5678
 // @icon         https://www.google.com/s2/favicons?domain=notion.so
 // @grant        GM_setClipboard
 // @license MIT
