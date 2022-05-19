@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         jdShell
 // @namespace    http://tampermonkey.net/
-// @version      0.1.1
+// @version      0.1.2
 // @description  shell 自动登录
 // @author       leirensheng
 // @match      http://leirensheng.dynv6.net:5678
