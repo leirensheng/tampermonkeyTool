@@ -4,50 +4,164 @@
 // @version      0.1
 // @description  try to take over the world!
 // @author       You
-// @match        https://wap.showstart.com/pages/activity/detail/detail?activityId=173051
+// @match        https://wap.showstart.com/pages/activity/detail/*
+// @match        https://wap.showstart.com/pages/order/activity/list/list
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=showstart.com
 // @grant        none
 // ==/UserScript==
 
 (function () {
   "use strict";
-  let $ = (val) => document.querySelector(val);
-  let step = 0;
-  let target = document.querySelector("body");
-  let observe = new MutationObserver((mutationsList) => {
-    for (let mutation of mutationsList) {
-      if (mutation.type === "childList") {
-        let addedNodes = mutation.addedNodes;
-        if (!addedNodes.length) return;
-        if (addedNodes.length && step === 2) {
-          console.log(mutation.addedNodes[0]);
-        }
-        let addClassName = addedNodes[0].className;
+  let type = 2;
+  let keyword = '海洋'
+  let targetId = '175797'
 
-        if (addClassName === "shopping-bar bottom-bar") {
-          $(".bottom-bar");
-          $("#btnOther").click();
-          step = 1;
-        } else if (addClassName === "bar bottom-bar" && step === 1) {
-          let target = $(".uni-popup-insert .btn");
-          if (target.innerText !== "即将开售") {
-            console.log("点击购票");
-            target.click();
+  let $ = (val) => document.querySelector(val);
+  let $$ = (val) => document.querySelectorAll(val);
+
+  let startBuy = () => {
+    let step = 0;
+    let target = document.querySelector("body");
+    let startTime = Date.now();
+    let observe = new MutationObserver((mutationsList) => {
+      for (let mutation of mutationsList) {
+        // 找到出现时间
+        if (step >= 3) {
+          console.group();
+          console.log(mutation.type, mutation.target, mutation);
+          if (mutation.type === "childList" && mutation.addedNodes.length) {
+            console.log({ addClassName: mutation.addedNodes[0].className });
+          }
+          console.groupEnd();
+        }
+        if (mutation.type === "childList") {
+          let addedNodes = mutation.addedNodes;
+          if (!addedNodes.length) return;
+          let addClassName = addedNodes[0].className;
+
+          if (addClassName === "shopping-bar bottom-bar") {
+            $(".bottom-bar");
+            $("#btnOther").click();
+            console.log("========点击了立即购票了=========================");
+            step = 1;
+          } else if (addClassName === "bar bottom-bar" && step === 2) {
+            let btnTarget = $(".uni-popup-insert .btn");
+            console.log(
+              `========按钮名称：${btnTarget.innerText}=========================`
+            );
+            if (btnTarget.innerText !== "即将开售") {
+              console.log("========开售时间已经到了=========================");
+              if (btnTarget.innerText === "APP缺票登记") {
+                window.location.reload();
+                return;
+              }
+              if (type !== 0) {
+                console.log(
+                  "========试试点击立即购买========================="
+                );
+              } else {
+                console.log("========点击立即购买=========================");
+              }
+              btnTarget.click();
+              step = 3;
+            } else {
+              window.location.reload();
+              return;
+            }
+          } else if (addClassName === "footer-bar" && step === 3) {
+            step = 4;
+          }
+        } else if (mutation.type === "attributes") {
+          if (
+            step === 1 &&
+            mutation.target.className ===
+              "uni-body pages-activity-detail-detail"
+          ) {
+            if (type !== 0) {
+              $$(".ticket-list .list-item")[type].click();
+            }
+            console.log("========票类型选择好了=========================");
             step = 2;
-          } else {
+          }
+          if (
+            step === 3 &&
+            mutation.target.className === "btn appbuy blackBtn"
+          ) {
+            console.log("========按钮变黑，重新加载=========================");
             window.location.reload();
           }
-        } else if (addClassName === "footer-bar" && step === 2) {
-          step = 3;
+          if (
+            step === 4 &&
+            mutation.attributeName === "class" &&
+            mutation.target.tagName === "UNI-TOAST"
+          ) {
+            if ($(".payBtn") && $(".payBtn").innerText.length > 6) {
+              console.log("===============点击提交订单=================");
+              $(".payBtn").click();
+              let time = Date.now() - startTime;
+              console.log(`===============用时：${time}=================`);
+              setTimeout(() => {
+                observe.disconnect();
+                window.location.replace(
+                  "https://wap.showstart.com/pages/order/activity/list/list"
+                );
+              }, 500);
+            }
+          }
         }
-      } else if (mutation.type === "attributes" && step === 3) {
-        $(".payBtn").click();
-        setTimeout(() => {
-          observe.disconnect();
-        }, 500);
       }
-    }
-  });
+    });
 
-  observe.observe(target, { attributes: true, childList: true, subtree: true });
+    observe.observe(target, {
+      attributes: true,
+      childList: true,
+      subtree: true,
+    });
+  };
+ 
+  let startList = ()=>{
+    let target = document.querySelector("body");
+    let observe = new MutationObserver((mutationsList) => {
+      for (let mutation of mutationsList) {
+        // 找到出现时间
+        // if (true) {
+        //   console.group();
+        //   console.log(mutation.type, mutation.target, mutation);
+        //   if (mutation.type === "childList" && mutation.addedNodes.length) {
+        //     console.log({ addClassName: mutation.addedNodes[0].className });
+        //   }
+        //   console.groupEnd();
+        // }
+        if (mutation.type === "childList") {
+          let {addedNodes} = mutation
+          if (!addedNodes.length) return;
+          let addClassName = addedNodes[0].className;
+          if(addClassName==='order-list'){
+             let firstOne = $('.g-name')&&$('.g-name').innerText
+            console.log(firstOne)
+            if(firstOne&&firstOne.includes(keyword)){
+              return
+            }
+            let url =`https://wap.showstart.com/pages/activity/detail/detail?activityId=${targetId}`
+            window.location.replace(url)
+          }
+        }
+      }
+    });
+    observe.observe(target, {
+      attributes: true,
+      childList: true,
+      subtree: true,
+    });
+  }
+  let map = new Map([
+    [/detail\?activityId=/, startBuy],
+    [/order\/activity\/list/, startList],
+  ]);
+
+  for (let [key, value] of map) {
+    if (key.test(location.href)) {
+      value();
+    }
+  }
 })();
