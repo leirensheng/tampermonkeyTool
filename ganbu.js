@@ -7,6 +7,7 @@
 // @match        https://www.jlgbjy.gov.cn/student/clazz!main.action?clazz.id=170
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=jlgbjy.gov.cn
 // @grant        none
+// @require      file://D:\tampermonkeyTool\ganbu.js
 // ==/UserScript==
 
 (function () {
@@ -17,13 +18,15 @@
     new Promise((resolve) => {
       setTimeout(resolve, time);
     });
-  let startList = () => {
+  let startList = async () => {
+    await sleep(2000)
     let allRows = $$(".centerTable tr:nth-child(4n)");
     for (let one of allRows) {
       let progress = one.querySelector(".jindu_bfs").innerText;
       console.log(progress);
       if (progress !== "100.0%") {
         one.querySelector("a").click();
+        await sleep(3000)
         window.close();
         break;
       }
@@ -46,17 +49,20 @@
     $(".user_choise").click();
     document.body.style.background = "red";
 
-    video.addEventListener("play", () => {
+
+    $("video").addEventListener("play", () => {
       console.log("播放");
       document.body.style.background = "green";
     });
-    video.addEventListener("ended", async () => {
+    $("video").addEventListener("ended", async () => {
       console.log("結束");
+
       window.location.replace(
         "https://www.jlgbjy.gov.cn/student/training_class!courseList.action?clazz.id=971"
       );
+      // window.location.reload()
     });
-    video.addEventListener("pause", async () => {
+    $("video").addEventListener("pause", async () => {
       console.log("暂停");
     });
   };
@@ -71,6 +77,7 @@
     if (key.test(location.href)) {
       console.log("mathc");
       value();
+      break;
     }
   }
   // Your code here...

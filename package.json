@@ -1,0 +1,23 @@
+{
+  "name": "tampermonkeytool",
+  "version": "1.0.0",
+  "description": "",
+  "main": "autoClass.js",
+  "scripts": {
+    "ugly": "uglifyjs ganbu.js --output dist/ganbu.js --compress --mangle",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leirensheng/tampermonkeyTool.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leirensheng/tampermonkeyTool/issues"
+  },
+  "homepage": "https://github.com/leirensheng/tampermonkeyTool#readme",
+  "dependencies": {
+    "uglify-js": "^3.16.0"
+  }
+}
