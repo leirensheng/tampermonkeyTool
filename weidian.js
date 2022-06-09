@@ -12,9 +12,9 @@
 // ==/UserScript==
 
 let startOrder = async () => {
-  let name = "林浩泉";
-  let city = "广东省清远市";
-  let code = "440782200108100013";
+  let name = "葛绍敏";
+  let city = "安徽合肥";
+  let code = "34240120000401494X";
   let $ = (val) => document.querySelector(val);
   let sleep = (val) => new Promise((resolve) => setTimeout(resolve, val));
   let setInputValue = (selector, val) => {
@@ -76,7 +76,7 @@ let sendMsg = () => {
 
 let startItem = async () => {
   "use strict";
-  let typeOrder = 2;
+  let typeOrder = 1;
   let timeOrder = 1;
 
   let $ = (val) => document.querySelector(val);
