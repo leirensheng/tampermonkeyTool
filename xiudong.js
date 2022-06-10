@@ -148,6 +148,10 @@
 
   let startList = () => {
     let target = document.querySelector("body");
+    let toTargetUrl = () => {
+      let url = `https://wap.showstart.com/pages/activity/detail/detail?activityId=${targetId}`;
+      window.location.replace(url);
+    };
     let observe = new MutationObserver((mutationsList) => {
       for (let mutation of mutationsList) {
         // 找到出现时间
@@ -161,7 +165,10 @@
         // }
         if (mutation.type === "childList") {
           let { addedNodes } = mutation;
-          if (!addedNodes.length) return;
+          if (!addedNodes.length) {
+            toTargetUrl();
+            return;
+          }
           let addClassName = addedNodes[0].className;
           if (addClassName === "order-list") {
             let firstOne = $(".g-name") && $(".g-name").innerText;
@@ -169,8 +176,7 @@
             if (firstOne && firstOne.includes(keyword)) {
               return;
             }
-            let url = `https://wap.showstart.com/pages/activity/detail/detail?activityId=${targetId}`;
-            window.location.replace(url);
+            toTargetUrl();
           }
         }
       }
