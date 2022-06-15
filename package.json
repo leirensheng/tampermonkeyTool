@@ -4,7 +4,7 @@
   "description": "",
   "main": "autoClass.js",
   "scripts": {
-    "ugly": "uglifyjs ganbu.js --output dist/ganbu.js --compress --mangle",
+    "ugly": "uglifyjs anPeiTongClass.js --output dist/anPeiTongClass.js --compress --mangle",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
