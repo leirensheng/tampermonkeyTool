@@ -12,6 +12,7 @@
 
 let sectionName = "登高架设作业初训";
 let sleepTime = 3000;
+let refreshTime = 1000*60*60
 
 let sleep = (time) =>
   new Promise((resolve) => {
@@ -117,4 +118,8 @@ let $$ = (val) => document.querySelectorAll(val);
 
   console.log(111, start);
   start();
+
+  setTimeout(()=>{
+    window.location.reload()
+  },refreshTime)
 })();
