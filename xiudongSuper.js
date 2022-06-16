@@ -28,6 +28,11 @@ let sendMsg = (content) => {
       Math.random(),
   });
 };
+let palyMusic = ()=>{
+    let src="https://webfs.ali.kugou.com/202206161708/75cd8ee5dbf1d84cf988799afc6bb6b6/part/0/960121/KGTX/CLTX001/clip_283069dee017c99f49df574a977451a0.mp3"
+    let audio =  new Audio(src)
+    audio.play()
+}
 
 (async () => {
   "use strict";
@@ -39,4 +44,5 @@ let sendMsg = (content) => {
   }
   let target = $(".info-base .name").innerText;
   sendMsg(target);
+  palyMusic()
 })();
