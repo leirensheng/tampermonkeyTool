@@ -22,7 +22,7 @@ let $ = (val) => document.querySelector(val);
 let sendMsg = () => {
     GM_xmlhttpRequest({
       method: "GET",
-      url: "http://www.pushplus.plus/send?token=ff7273be19b84a01b99f47cedbfb8694&title=PiaoSuccess&&content=PiaoSuccess",
+      url: "http://www.pushplus.plus/send?token=ff7273be19b84a01b99f47cedbfb8694&title=PiaoSuccess&&content=PiaoSuccess"+Math.random(),
     });
   };
   sendMsg()
