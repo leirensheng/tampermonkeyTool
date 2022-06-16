@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         秀动订单页
+// @name         秀动订单页Super
 // @namespace    http://tampermonkey.net/
 // @version      0.1
 // @description  try to take over the world!
@@ -9,31 +9,34 @@
 // @match       https://wap.showstart.com/pages/order/activity/confirm/confirm?sequence=175827&ticketId=1163535ac5adc6836f9f84045b1f8b67&ticketNum=1
 // @match       https://wap.showstart.com/pages/order/activity/confirm/confirm?sequence=175828&ticketId=a323be612b45c7eb2bf622214d1ca9d2&ticketNum=1
 
-
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=showstart.com
 // @grant        GM_xmlhttpRequest
+// @connect      www.pushplus.plus
 // ==/UserScript==
 
 let sleep = (time) =>
-    new Promise((resolve) => {
-        setTimeout(resolve, time);
-    });
+  new Promise((resolve) => {
+    setTimeout(resolve, time);
+  });
 let $ = (val) => document.querySelector(val);
-let sendMsg = () => {
-    GM_xmlhttpRequest({
-      method: "GET",
-      url: "http://www.pushplus.plus/send?token=ff7273be19b84a01b99f47cedbfb8694&title=PiaoSuccess&&content=PiaoSuccess"+Math.random(),
-    });
-  };
-  sendMsg()
-  return
-(async () => {
-    'use strict';
-    await sleep(5000)
+let sendMsg = (content) => {
+  GM_xmlhttpRequest({
+    method: "GET",
+    url:
+      "http://www.pushplus.plus/send?token=ff7273be19b84a01b99f47cedbfb8694&title=PiaoSuccess&&content=" +
+      content +
+      Math.random(),
+  });
+};
 
-    while (!$(".pay-pop-head")) {
-        $('.payBtn').click()
-        await sleep(950)
-    }
-    sendMsg()
+(async () => {
+  "use strict";
+  await sleep(5000);
+
+  while (!$(".pay-pop-head")) {
+    $(".payBtn").click();
+    await sleep(950);
+  }
+  let target = $(".info-base .name").innerText;
+  sendMsg(target);
 })();

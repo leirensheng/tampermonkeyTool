@@ -1,3 +1,18 @@
+// ==UserScript==
+// @name         乐迷
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  try to take over the world!
+// @author       You
+// @match        https://wap.showstart.com/pages/activity/detail/detail?activityId=175827
+// @match        https://wap.showstart.com/pages/activity/detail/detail?activityId=175826
+// @match        https://wap.showstart.com/pages/activity/detail/detail?activityId=176017
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=showstart.com
+// @grant        GM_xmlhttpRequest
+// @connect      www.pushplus.plus
+// @require      file://D:\油猴\tampermonkeyTool\xiudongYueMi.js
+// ==/UserScript==
+
 let sleep = (time) =>
   new Promise((resolve) => {
     setTimeout(resolve, time);
@@ -11,7 +26,6 @@ let sendMsg = (msg) => {
   });
 };
 
-// sendMsg();
 let check = () => {
   console.log("check");
   let tickets = [...$$(".ticket-list .list-item")];
@@ -42,7 +56,6 @@ let start = async () => {
 };
 
 (async () => {
-  let isStart = false;
 
   let observe = new MutationObserver((mutationsList) => {
     for (let mutation of mutationsList) {
