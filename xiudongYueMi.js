@@ -71,7 +71,7 @@ let start = async () => {
     }
   });
 
-  observe.observe(document.querySelector("body"), {
+  observe.observe($("body"), {
     attributes: true,
     childList: true,
     subtree: true,

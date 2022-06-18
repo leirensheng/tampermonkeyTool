@@ -43,6 +43,8 @@ let palyMusic = ()=>{
     await sleep(950);
   }
   let target = $(".info-base .name").innerText;
-  sendMsg(target);
+  let realName = $('.viewer-list .name').innerText
+  let nickname = window.nameMap[realName]
+  sendMsg(`【${target}】${realName}_${nickname}`);
   palyMusic()
 })();

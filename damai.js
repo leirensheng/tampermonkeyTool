@@ -22,8 +22,6 @@
 
   let startBuy = () => {
     let step = 0;
-    let target = document.querySelector("body");
-    // $(".buy__button__text").click();
     let chooseTick = (isFirst) => {
         console.log(isFirst)
       // let addedNodes = mutation.addedNodes;
@@ -87,7 +85,7 @@
       }
     });
 
-    observe.observe(target, {
+    observe.observe($('body'), {
         attributes: true,
       childList: true,
       subtree: true,
