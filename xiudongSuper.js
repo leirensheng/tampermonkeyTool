@@ -23,7 +23,7 @@ let sendMsg = (content) => {
   GM_xmlhttpRequest({
     method: "GET",
     url:
-      "http://www.pushplus.plus/send?token=ff7273be19b84a01b99f47cedbfb8694&title=PiaoSuccess&&content=" +
+      "http://wxpusher.zjiecode.com/api/send/message/?appToken=AT_s8ql37DbRNkrItpYhUK60xNNTeNE3ekp&uid=UID_ZFqEpe7kmm27SJ466yXdnbeWyIgL&url=http%3a%2f%2fwxpusher.zjiecode.com&content=" +
       content +
       Math.random(),
   });
