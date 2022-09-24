@@ -12,9 +12,9 @@
 // ==/UserScript==
 
 let startOrder = async () => {
-  let name = "葛绍敏";
-  let city = "安徽合肥";
-  let code = "34240120000401494X";
+  let name = "章瑞莹";
+  let city = "江西南昌";
+  let code = "360425200506031021";
   let $ = (val) => document.querySelector(val);
   let sleep = (val) => new Promise((resolve) => setTimeout(resolve, val));
   let setInputValue = (selector, val) => {
@@ -31,6 +31,7 @@ let startOrder = async () => {
     history.back();
   } else {
     console.log("按钮可以点击");
+    sendMsg('HasTicket')
   }
 
   let target = document.querySelector("body");
@@ -56,6 +57,16 @@ let startOrder = async () => {
           $("#pay_btn>span").click();
           await sleep(100);
           $("#pay_btn>span").click();
+          setTimeout(()=>{
+            try{
+              let isSuccess = $('iframe').contentWindow.document.body.innerText.includes('下单成功')
+              if(isSuccess){
+                sendMsg('ticketSuccess'+'17370812005')
+              }
+            }catch(e){
+              console.log(e)
+            }
+          },2000)
         }
       }
     }
@@ -64,10 +75,10 @@ let startOrder = async () => {
   observe.observe(target, { attributes: true, childList: true, subtree: true });
 };
 
-let sendMsg = () => {
+let sendMsg = (content) => {
     GM_xmlhttpRequest({
       method: 'GET',
-      url: 'http://www.pushplus.plus/send?token=ff7273be19b84a01b99f47cedbfb8694&title=PIAO&&content=PIAO',
+      url: `http://wxpusher.zjiecode.com/api/send/message/?appToken=AT_s8ql37DbRNkrItpYhUK60xNNTeNE3ekp&content=${content}&uid=UID_ZFqEpe7kmm27SJ466yXdnbeWyIgL&url=http%3a%2f%2fwxpusher.zjiecode.com`,
       onload: function (response) {
         //这里写处理函数
       }
@@ -90,16 +101,17 @@ let startItem = async () => {
       if (mutation.type === "childList") {
         let addedNodes = mutation.addedNodes;
         if (!addedNodes.length) return;
-        if (addedNodes.length && step === 2) {
-          console.log(mutation.addedNodes[0]);
-        }
+        // if (addedNodes.length && step === 2) {
+        //   console.log(mutation.addedNodes[0]);
+        // }
 
         let addClassName = addedNodes[0].className;
-        // console.log(addClassName);
+        console.log(addClassName);
         if (
-          addClassName === "sku-content height-threshold wd-popup-scrollable"
+          addClassName === "sku-content height-threshold"
         ) {
           let target = $(`.sku-row section li:nth-child(${timeOrder})`);
+          console.log('target',target)
 
           if (target.getAttribute("disabled") === "disabled") {
             location.reload();
@@ -109,23 +121,15 @@ let startItem = async () => {
           let targetType = $(
             `.sku-row:nth-child(2) li:nth-child(${typeOrder})`
           );
-
-          let hasOne = false
-          if (targetType.get.getAttribute("disabled") === "disabled") {
-             targetType = $(`.sku-row:nth-child(2) li:nth-child(${0})`);
-             hasOne =  targetType.get.getAttribute("disabled") !== "disabled"
-          }else{
-              hasOne = true
-          }
+          console.log('targetType',targetType)
+          let hasOne = targetType.getAttribute("disabled") !== "disabled"
           if(!hasOne){
             location.reload();
-            return; 
+            return;
           }
           targetType.click()
           $(".footer-buy-now").click();
-        //   sendMsg()
           step = 2;
-        //   sendMsg()
         }
       }
     }
