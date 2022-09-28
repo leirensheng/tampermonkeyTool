@@ -15,9 +15,9 @@
   let selector = "[data-hveid=CCEQAA]";
 
   let $ = (val) => document.querySelector(val);
-  let $$ = (val) => document.querySelectorAll(val);
+  let $$ = (val) => [...document.querySelectorAll(val)];
 
-  let waitForCondition = (conditionFn) =>
+  let waitForCondition = (conditionFn, timeout) =>
     new Promise((resolve) => {
       let res = conditionFn();
       let isOk = (res) => (Array.isArray(res) ? res.length : res);
@@ -28,12 +28,14 @@
         let observe = new MutationObserver((mutationsList) => {
           for (let mutation of mutationsList) {
             if (mutation.type === "childList") {
-              let addedNodes = mutation.addedNodes;
-              if (!addedNodes.length) return;
+              console.log(document.readyState, conditionFn);
+              //   let addedNodes = mutation.addedNodes;
+              //   if (!addedNodes.length) return;
               res = conditionFn();
               if (isOk(res)) {
-                observe.disconnect();
                 resolve(res);
+                observe.disconnect();
+                break;
               }
             }
           }
@@ -43,6 +45,12 @@
           childList: true,
           subtree: true,
         });
+        if (timeout) {
+          setTimeout(() => {
+            resolve();
+            observe.disconnect();
+          }, timeout);
+        }
       }
     });
 
@@ -63,11 +71,13 @@
 
   await waitForCondition(
     () =>
-      $$("a[role=presentation]").length >= 8 ||
-      document.readyState === "complete"
+      $$("a[role=presentation]").length >= 6 ||
+      ["complete", "interactive"].includes(document.readyState),
+    1000
   );
-  let res = [...$$("a[role=presentation]")];
-  //   console.log("目标个数",res)
+
+  let res = $$("a[role=presentation]");
+  console.log("目标个数", res);
   res.forEach((one) => {
     // console.log(one.href);
     one.setAttribute("target", "_blank");
