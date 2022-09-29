@@ -71,7 +71,7 @@
 
   await waitForCondition(
     () =>
-      $$("a[role=presentation]").length >= 6 ||
+      $$("a[role=presentation]").length >= 9 ||
       ["complete", "interactive"].includes(document.readyState),
     1000
   );
