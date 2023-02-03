@@ -19,6 +19,7 @@
     let res = $$(".MjjYud a");
     console.log("目标个数", res);
     res.forEach((one) => {
+      console.log(one.href)
       one.setAttribute("target", "_blank");
     });
     console.timeEnd();
